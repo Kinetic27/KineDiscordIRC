@@ -1,0 +1,11 @@
+bot-setting:
+  bot-token: ""
+  channel-id: ""
+  bot-prefix: "/"
+discord-chat:
+  joiner: " "
+  prefix: "["
+  suffix: "]"
+webhook-setting:
+  show-3d-head: true
+  webhook-link: ""

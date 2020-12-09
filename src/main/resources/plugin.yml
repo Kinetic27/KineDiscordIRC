@@ -1,0 +1,8 @@
+name: KineticIRC
+version: @version@
+main: io.github.kinetic27.kineticirc.KineticIRC
+api-version: 1.16
+prefix: DiscordIRC
+authors: [ Kinetic27 ]
+description: This super simple plugin has so many features your head may just implode.
+website: kinetic.codes
