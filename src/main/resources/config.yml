@@ -2,10 +2,14 @@ bot-setting:
   bot-token: ""
   channel-id: ""
   bot-prefix: "/"
+
 discord-chat:
   joiner: " "
   prefix: "["
   suffix: "]"
+
 webhook-setting:
   show-3d-head: true
   webhook-link: ""
+
+info: "> 서버 버전 `1.16.4`\n> 서버 주소: `magam.kro.kr`\n> 서버 맵 주소: http://magam.kro.kr/\n> 화이트 리스트 적용중  @Kinetic#7328 에게 멘션"

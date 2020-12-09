@@ -5,13 +5,12 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.utils.Compression
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor.GREEN
-import org.bukkit.ChatColor.RED
-import org.bukkit.ChatColor.WHITE
-import org.bukkit.ChatColor.YELLOW
+import org.bukkit.ChatColor.*
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -30,6 +29,8 @@ class KineticIRC : JavaPlugin() {
     private var prefix = ""
     private var suffix = ""
     private var joiner = ""
+
+    private var info = ""
 
     init {
         reload()
@@ -73,7 +74,9 @@ class KineticIRC : JavaPlugin() {
                         logger.info("${WHITE}help cmd called")
                         val cmds = (
                                 "${botPrefix}help: 명령어 목록을 봅니다.\n" +
-                                "${botPrefix}list: 접속중인 유저들을 봅니다."
+                                        "${botPrefix}list: 접속중인 유저들을 봅니다.\n" +
+                                        "${botPrefix}info: 서버 정보를 봅니다.\n" +
+                                        "${botPrefix}ping: 서버 핑을 확인합니다."
                                 )
                         channel.sendMessage("**[ 명령어 리스트 ]**\n$cmds").queue()
                     }
@@ -85,6 +88,18 @@ class KineticIRC : JavaPlugin() {
 
                         channel.sendMessage("**[ 접속중인 유저 리스트 ]**\n$users").queue()
                     }
+
+                    "${botPrefix}info" -> {
+                        channel.sendMessage("**[ 서버 정보 ]**\n$info").queue()
+                    }
+
+                    "${botPrefix}ping" -> {
+                        val time = System.currentTimeMillis()
+                        channel.sendMessage("Pong!") /* => RestAction<Message> */
+                                .queue { response: Message -> response.editMessageFormat("Pong: %d ms", System.currentTimeMillis() - time).queue() }
+                    }
+
+
 
                     else -> if (channel.id == channelID) {
                         logger.info("$WHITE${it.event.author.name}: ${it.event.message.contentDisplay}")
@@ -137,6 +152,8 @@ class KineticIRC : JavaPlugin() {
         prefix = config.getString("discord-chat.prefix").toString()
         suffix = config.getString("discord-chat.suffix").toString()
         joiner = config.getString("discord-chat.joiner").toString()
+
+        info = config.getString("info").toString()
 
         if (jda == null) {
             jda = JDABuilder.createDefault(token).apply {
