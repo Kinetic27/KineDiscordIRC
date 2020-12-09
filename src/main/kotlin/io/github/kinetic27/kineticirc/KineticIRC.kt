@@ -68,14 +68,14 @@ class KineticIRC : JavaPlugin() {
                 if (message.author.isBot)
                     return@with
 
-
                 when (message.contentRaw) {
                     "${botPrefix}help" -> {
+                        logger.info("${WHITE}help cmd called")
                         val cmds = (
                                 "${botPrefix}help: 명령어 목록을 봅니다.\n" +
                                 "${botPrefix}list: 접속중인 유저들을 봅니다."
                                 )
-                        channel.sendMessage("**[ 명령어 리스트 ]**\n$cmds")
+                        channel.sendMessage("**[ 명령어 리스트 ]**\n$cmds").queue()
                     }
 
                     "${botPrefix}list" -> {
@@ -83,11 +83,11 @@ class KineticIRC : JavaPlugin() {
 
                         if (users.isBlank()) users = "- 접속중인 유저가 없습니다."
 
-                        channel.sendMessage("**[ 접속중인 유저 리스트 ]**\n$users")
+                        channel.sendMessage("**[ 접속중인 유저 리스트 ]**\n$users").queue()
                     }
 
                     else -> if (channel.id == channelID) {
-                        println(it.event.author.name + ": " + it.event.message.contentDisplay)
+                        logger.info("$WHITE${it.event.author.name}: ${it.event.message.contentDisplay}")
 
                         sendToDiscord(author.name, author.avatarUrl ?: "", message.contentRaw)
                         Bukkit.broadcastMessage("$prefix${author.name}$suffix$joiner${message.contentRaw}")
